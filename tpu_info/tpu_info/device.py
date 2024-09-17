@@ -41,6 +41,7 @@ class TpuChip(enum.Enum):
   V4 = Info("v4", hbm_gib=32, devices_per_chip=1)
   V5E = Info("v5e", hbm_gib=16, devices_per_chip=1)
   V5P = Info("v5p", hbm_gib=95, devices_per_chip=1)
+  V6E = Info("v6e", hbm_gib=32, devices_per_chip=1)
 
   @classmethod
   def from_pci_device_id(
@@ -58,6 +59,7 @@ class TpuChip(enum.Enum):
         "0x005e": cls.V4,
         "0x0063": cls.V5E,
         "0x0062": cls.V5P,
+        "??????": cls.V6E,
     }
 
     return device_id_to_device.get(device_id)
@@ -78,6 +80,7 @@ def get_local_chips() -> Tuple[Optional[TpuChip], int]:
 
     device_id_path = os.path.join(pci_path, "device")
     device_id = pathlib.Path(device_id_path).read_text().strip()
+    print(f"xxxx {device_id}", flush=True)
     subsystem_path = os.path.join(pci_path, "subsystem_device")
     subsystem_id = pathlib.Path(subsystem_path).read_text().strip()
 
